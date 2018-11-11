@@ -6,15 +6,31 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+
+
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "DEPARTAMENTOS")
-public class Departamento  extends AbstractEntity<Long>{
-	@Column(name= "NOME", nullable =false, unique=true,length=60)
+public class Departamento extends AbstractEntity<Long> {
+	@NotNull
+	@NotBlank
+	@Column(name = "NOME", nullable = false, unique = true, length = 60)
 	private String nome;
-	@OneToMany(mappedBy ="departamento")
+	@OneToMany(mappedBy = "departamento")
 	private List<Cargo> cargos;
+
+	public List<Cargo> getCargos() {
+		return cargos;
+	}
+
+	public void setCargos(List<Cargo> cargos) {
+		this.cargos = cargos;
+	}
+
 	public String getNome() {
 		return nome;
 	}
@@ -22,7 +38,5 @@ public class Departamento  extends AbstractEntity<Long>{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	
-	
+
 }
