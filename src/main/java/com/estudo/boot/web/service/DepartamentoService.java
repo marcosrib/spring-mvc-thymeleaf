@@ -18,4 +18,6 @@ public interface DepartamentoService {
     List<Departamento> buscarTodos();
 
 	boolean departamentoTemCargos(Long id);
+	List<Departamento> findDepartamentoByNome(String nome);
+	
 }

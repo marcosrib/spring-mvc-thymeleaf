@@ -55,4 +55,10 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		return true;
 	}
 
+	@Override
+	public List<Departamento> findDepartamentoByNome(String nome) {
+		// TODO Auto-generated method stub
+		return dao.findByNome(nome);
+	}
+
 }
