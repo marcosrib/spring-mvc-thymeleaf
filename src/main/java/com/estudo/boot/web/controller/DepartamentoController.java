@@ -1,20 +1,27 @@
 package com.estudo.boot.web.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.estudo.boot.web.domain.Departamento;
 import com.estudo.boot.web.service.DepartamentoService;
+import com.estudo.boot.web.validator.DepartamentoValidator;
 
 @Controller
 @RequestMapping("departamentos")
@@ -25,7 +32,18 @@ public class DepartamentoController {
 	public String cadastrar(Departamento departamento) {
 		return "/departamento/cadastro";
 	}
-	 
+	 @InitBinder
+	public void initBinder(WebDataBinder binder) {
+		 binder.addValidators(new DepartamentoValidator());
+		
+	}
+
+	 @ResponseBody
+	    @RequestMapping(value="/listarModal",method = RequestMethod.GET)
+	    public List<Departamento>  Greeting(){
+		 List<Departamento> d =service.buscarTodos();
+	        return d;
+	    }
 	@GetMapping("/listar")
 	public String listar(ModelMap model) {
 		model.addAttribute("departamentos", service.buscarTodos());

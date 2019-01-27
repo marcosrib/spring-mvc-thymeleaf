@@ -21,28 +21,39 @@
 				</a>
 			</div>
 		</nav>
-<div th:if="${attributeName} != null">
-							
-							<strong th:text="${attributeName} ">ttttttttt</strong>
-							
-							</div>
-		<div class="container" id="cadastro" >
-			<form  th:action=" ${departamento.id == null} ? @{/departamentos/salvar} : @{/departamentos/editar}" th:object=${departamento} method="POST">
-				<div class="form-row"  >
-					<div class="form-group col-md-6 has-danger"  th:classappend="${#fields.hasErrors('nome')} ? has-error" >
-						<label for="nome" >Departamento</label> 
-						<input type="text"
+		<div th:if="${attributeName} != null">
+
+			<strong th:text="${attributeName} ">ttttttttt</strong>
+
+		</div>
+		<div class="container" id="cadastro">
+			<form
+				th:action=" ${departamento.id == null} ? @{/departamentos/salvar} : @{/departamentos/editar}"
+				th:object=${departamento} method="POST">
+				<div class="form-row">
+					<div class="form-group col-md-6 has-danger"
+						th:classappend="${#fields.hasErrors('nome')} ? 'is-error'">
+						<label for="nome">Departamento</label> <input type="text"
 							class="form-control" id="nome" placeholder="Nome Departamento"
-							autofocus="autofocus"  th:field="*{nome}" 
-							/>
-							
-							
+							autofocus="autofocus" th:field="*{nome}" />
+						<div class="invalid-feedback">
+							<span th:errors="*{nome}"></span>
+						</div>
+
 					</div>
+					
+						
+						<a class="btn btn-primary btn-md" 
+					role="button" data-toggle="modal"
+						data-target="#exampleModal" > <span class="oi oi-spreadsheet" title="Listar"
+					aria-hidden="true"></span> <span>Listar Departamentos</span>
+				</a>
 				</div>
-				<input type="hidden" id="id" th:field="*{id}"/>
+				<input type="hidden" id="id" th:field="*{id}" />
 				<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
 			</form>
 		</div>
+		<div th:replace="departamento/modalD :: modal"></div>
 	</section>
 
 </body>

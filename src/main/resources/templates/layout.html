@@ -37,34 +37,122 @@
 	<footer th:replace="fragments/footer :: rodape">
 		<div>footer</div>
 	</footer>
-	
+
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="/webjars/jquery/jquery.min.js"></script>
 	<script src="/webjars/jquery-mask-plugin/dist/jquery.mask.min.js"></script>
-	<script	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-	<script type="text/javascript">
-	    var url= '';
-	    
-	    $('button[id*="btn_"]').click(function() {
-	     url = "http://localhost:8080/" + $(this).attr('id').split("_")[1]
-	    });
-	    $('#ok_confirm').click(function(){
-	    	document.location.href = url;
-	    });
-	    
+	<script type="text/javascript" th:inline="javascript">
+		var url = '';
+
+		$('button[id*="btn_"]').click(function() {
+			url = "http://localhost:8080/" + $(this).attr('id').split("_")[1]
+		});
+		$('#ok_confirm').click(function() {
+			document.location.href = url;
+		});
+
 		$(function() {
 			$('[data-toggle="popover"]').popover();
 		});
-		
-		$(document).ready(function(){
-		    $(".navbar-toggle").click(function(){
-		        $(".sidebar").toggleClass("sidebar-open");
-		    })
+
+		$(document).ready(function() {
+			$(".navbar-toggle").click(function() {
+				$(".sidebar").toggleClass("sidebar-open");
+			})
 		});
 
+		/*<![CDATA[*/
+
+		$(document)
+				.ready(
+						function() {
+
+							var url = window.location;
+
+							$("#btnId").click(function() {
+								$("#table tr").detach();
+								//$("#table > tr").remove();
+								 //$('#table > tr').empty();
+
+								ajaxGet();
+							})
+
+							// DO GET
+							function ajaxGet() {
+								$
+										.ajax({
+											type : "GET",
+											url : "http://localhost:8080/departamentos/listarModal",
+											success : function(data) {
+												var extraMsg = 'Thymeleaf javascript example.';
+												fillData(data);
+											},
+											error : function(e) {
+												fillData(null);
+											}
+										});
+							}
+
+							function fillData(data) {
+								if (data != null) {
+									var message = data
+									console.log(data)
+									var trHTML = '';
+									$.each(data, function(i, item) {
+										trHTML += '<tr><td class="id">' + item.id
+												+ '</td><td class="nome">' + item.nome
+												+ '</td><td>' + '<button class="btn-danger">Recuperar nome</button>'
+												+ '</td></tr>';
+									});
+									$('tbody').append(trHTML);
+								} else {
+									$(".modal-body #greetingId").text(
+											"Can Not Get Data from Server!");
+								}
+							}
+						})
+		$(function() {
+			$(document).on(
+					'click',
+					'.btn-danger',
+					function(e) {
+						e.preventDefault;
+						var nome = $(this).parent().parent().find(".nome").text();
+						
+						 var pessoa = {
+								   nome: nome +"teste"
+								};
+						 ajaxPost(pessoa);
+					});
+		});
+
+		
+		function ajaxPost(pessoa) {
+			var pessoa1 = pessoa
+			console.log(pessoa1)
+			
+			$
+					.ajax({
+						type : "POST",
+						url : "http://localhost:8080/departamentos/salvar",
+						data: pessoa1,
+						success : function(data) {
+							alert("teste")
+							fillData(data);
+						},
+						error : function(e) {
+							fillData(null);
+						}
+					});
+		}
+		console.log(nome)
+
+		/*]]>*/
 	</script>
 </body>
 </html>
